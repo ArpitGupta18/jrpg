@@ -12,6 +12,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Service
 public class CharacterService implements ICharacterService {
@@ -23,6 +24,7 @@ public class CharacterService implements ICharacterService {
         this.characterClassRepository = characterClassRepository;
     }
 
+    @Override
     public ApiResponseDTO<CharacterDTO> createCharacter(CreateCharacterDTO dto) {
         CharacterClass characterClass = characterClassRepository.findById(dto.getClassId()).orElseThrow(() -> new RuntimeException("Character Class doesn't exist"));
         Character character = getCharacter(dto, characterClass);
@@ -30,8 +32,36 @@ public class CharacterService implements ICharacterService {
         CharacterDTO characterDTO = convertCharacterToDTO(characterRepository.save(character));
 
         return new ApiResponseDTO<>(
-                HttpStatus.OK,
+                HttpStatus.CREATED,
                 "Character created successfully",
+                characterDTO,
+                LocalDateTime.now()
+        );
+    }
+
+    @Override
+    public ApiResponseDTO<List<CharacterDTO>> getCharacters() {
+        List<Character> characters = characterRepository.findAll();
+
+        List<CharacterDTO> characterDTOS = characters.stream().map(this::convertCharacterToDTO).toList();
+
+        return new ApiResponseDTO<>(
+                HttpStatus.OK,
+                "All characters fetched successfully",
+                characterDTOS,
+                LocalDateTime.now()
+        );
+    }
+
+    @Override
+    public ApiResponseDTO<CharacterDTO> getCharacterById(Long id) {
+        Character character = characterRepository.findById(id).orElseThrow(() -> new RuntimeException("Character not found!!"));
+
+        CharacterDTO characterDTO = convertCharacterToDTO(character);
+
+        return new ApiResponseDTO<>(
+                HttpStatus.OK,
+                "Character fetched successfully",
                 characterDTO,
                 LocalDateTime.now()
         );
