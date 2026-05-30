@@ -1,48 +1,26 @@
-package com.arpit.jrpg.model.entity;
+package com.arpit.jrpg.model.dto.characters;
 
-import jakarta.persistence.*;
+import com.arpit.jrpg.model.entity.CharacterClass;
 
-import java.util.List;
-
-@Entity
-@Table(name = "characters")
-public class Character {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long character_id;
-
+public class CharacterDTO {
+    private Long characterId;
     private String name;
-    private Integer level = 1;
-    private Integer experience = 0;
+    private Integer level;
+    private Integer experience;
     private Integer hp;
     private Integer mp;
     private Integer strength;
     private Integer defense;
     private Integer agility;
     private Integer intelligence;
-    private Integer gold = 0;
+    private Integer gold;
 
-    @ManyToOne
-    @JoinColumn(name="class_id")
-    private CharacterClass characterClass;
-
-    @OneToMany(mappedBy = "character", cascade = CascadeType.ALL)
-    private List<Inventory> inventory;
-
-    @ManyToMany
-    @JoinTable(
-            name = "character_skill",
-            joinColumns = @JoinColumn(name = "character_id"),
-            inverseJoinColumns = @JoinColumn(name = "skill_id")
-    )
-    private List<Skill> skills;
-
-    public Long getCharacter_id() {
-        return character_id;
+    public Long getCharacterId() {
+        return characterId;
     }
 
-    public void setCharacter_id(Long character_id) {
-        this.character_id = character_id;
+    public void setCharacterId(Long characterId) {
+        this.characterId = characterId;
     }
 
     public String getName() {
@@ -123,29 +101,5 @@ public class Character {
 
     public void setGold(Integer gold) {
         this.gold = gold;
-    }
-
-    public CharacterClass getCharacterClass() {
-        return characterClass;
-    }
-
-    public void setCharacterClass(CharacterClass characterClass) {
-        this.characterClass = characterClass;
-    }
-
-    public List<Inventory> getInventory() {
-        return inventory;
-    }
-
-    public void setInventory(List<Inventory> inventory) {
-        this.inventory = inventory;
-    }
-
-    public List<Skill> getSkills() {
-        return skills;
-    }
-
-    public void setSkills(List<Skill> skills) {
-        this.skills = skills;
     }
 }
