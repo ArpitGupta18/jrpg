@@ -1,5 +1,6 @@
 package com.arpit.jrpg.model.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 
 import java.util.List;
@@ -20,6 +21,7 @@ public class CharacterClass {
     private Integer baseIntelligence;
 
     @OneToMany(mappedBy = "characterClass")
+    @JsonIgnore
     private List<Character> characters;
 
     public Long getClass_id() {

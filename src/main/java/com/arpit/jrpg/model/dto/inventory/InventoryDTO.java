@@ -1,21 +1,12 @@
-package com.arpit.jrpg.model.entity;
+package com.arpit.jrpg.model.dto.inventory;
 
-import jakarta.persistence.*;
+import com.arpit.jrpg.model.entity.Character;
+import com.arpit.jrpg.model.entity.Item;
 
-@Entity
-public class Inventory {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+public class InventoryDTO {
     private Long inventory_id;
-
-    @ManyToOne
-    @JoinColumn(name = "character_id")
     private Character character;
-
-    @ManyToOne
-    @JoinColumn(name = "item_id")
     private Item item;
-
     private Integer quantity;
 
     public Long getInventory_id() {
