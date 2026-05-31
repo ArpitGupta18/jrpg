@@ -13,6 +13,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.Collections;
+import java.util.List;
 
 @Service
 public class InventoryService implements IInventoryService {
@@ -36,7 +38,7 @@ public class InventoryService implements IInventoryService {
         inventory.setItem(item);
         inventory.setQuantity(dto.getQuantity());
 
-        InventoryDTO inventoryDTO =  convertInventoryToDTO(inventoryRepository.save(inventory));
+        InventoryDTO inventoryDTO = convertInventoryToDTO(inventoryRepository.save(inventory));
 
         return new ApiResponseDTO<>(
                 HttpStatus.CREATED,
@@ -46,11 +48,26 @@ public class InventoryService implements IInventoryService {
         );
     }
 
+    @Override
+    public ApiResponseDTO<List<InventoryDTO>> getInventory(Long character_id) {
+        Character character = characterRepository.findById(character_id).orElseThrow(() -> new RuntimeException("Character not found"));
+        List<Inventory> inventories = inventoryRepository.findByCharacter(character);
+
+        List<InventoryDTO> response = inventories.stream().map(this::convertInventoryToDTO).toList();
+
+        return new ApiResponseDTO<>(
+                HttpStatus.OK,
+                "Inventory of character fetched",
+                response,
+                LocalDateTime.now()
+        );
+    }
+
     private InventoryDTO convertInventoryToDTO(Inventory inventory) {
         InventoryDTO dto = new InventoryDTO();
 
         dto.setInventory_id(inventory.getInventory_id());
-        dto.setCharacter(inventory.getCharacter());
+//        dto.setCharacter(inventory.getCharacter());
         dto.setItem(inventory.getItem());
         dto.setQuantity(inventory.getQuantity());
 

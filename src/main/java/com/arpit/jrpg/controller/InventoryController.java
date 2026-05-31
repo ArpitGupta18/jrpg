@@ -7,6 +7,8 @@ import com.arpit.jrpg.service.IInventoryService;
 import com.arpit.jrpg.service.InventoryService;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/api/characters")
 public class InventoryController {
@@ -19,5 +21,10 @@ public class InventoryController {
     @PostMapping("/{id}/inventory")
     public ApiResponseDTO<InventoryDTO> addItemToInventory(@RequestBody AddItemToInventoryDTO dto, @PathVariable Long id) {
         return inventoryService.addItemToInventory(dto, id);
+    }
+
+    @GetMapping("/{id}/inventory")
+    public ApiResponseDTO<List<InventoryDTO>> getInventory(@PathVariable Long id) {
+        return inventoryService.getInventory(id);
     }
 }

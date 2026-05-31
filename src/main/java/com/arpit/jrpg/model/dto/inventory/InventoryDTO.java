@@ -5,7 +5,7 @@ import com.arpit.jrpg.model.entity.Item;
 
 public class InventoryDTO {
     private Long inventory_id;
-    private Character character;
+//    private Character character;
     private Item item;
     private Integer quantity;
 
@@ -17,13 +17,13 @@ public class InventoryDTO {
         this.inventory_id = inventory_id;
     }
 
-    public Character getCharacter() {
-        return character;
-    }
-
-    public void setCharacter(Character character) {
-        this.character = character;
-    }
+//    public Character getCharacter() {
+//        return character;
+//    }
+//
+//    public void setCharacter(Character character) {
+//        this.character = character;
+//    }
 
     public Item getItem() {
         return item;
