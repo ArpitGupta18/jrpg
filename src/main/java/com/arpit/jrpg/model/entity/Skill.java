@@ -1,6 +1,7 @@
 package com.arpit.jrpg.model.entity;
 
 import com.arpit.jrpg.model.enums.SkillType;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 
 import java.util.List;
@@ -19,5 +20,6 @@ public class Skill {
     private SkillType skillType;
 
     @ManyToMany(mappedBy = "skills")
+    @JsonIgnore
     private List<Character> characters;
 }
